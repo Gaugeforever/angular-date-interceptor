@@ -1,5 +1,4 @@
 import { HttpInterceptorFn, HttpEventType, HttpRequest, HttpHandlerFn, HttpResponse, HttpEvent } from '@angular/common/http';
-import { RegExUtility } from '@utilities/regex';
 import { tap } from 'rxjs';
 
 // A helper function to check and convert date strings
@@ -9,7 +8,7 @@ function convertDates(object: any) {
   for (const key of Object.keys(object)) {
     const value = object[key];
 
-    if ((typeof value === 'string') && (RegExUtility.isDate(value))) {
+    if ((typeof value === 'string') && (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/.test(value))) {
       object[key] = new Date(value);
     } else if (typeof value === 'object') {
       convertDates(value);
