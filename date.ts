@@ -1,4 +1,4 @@
-import { HttpInterceptorFn, HttpEventType } from '@angular/common/http';
+import { HttpInterceptorFn, HttpEventType, HttpRequest, HttpHandlerFn, HttpResponse, HttpEvent } from '@angular/common/http';
 import { RegExUtility } from '@utilities/regex';
 import { tap } from 'rxjs';
 
@@ -17,14 +17,15 @@ function convertDates(object: any) {
   }
 }
 
-export const dateInterceptor: HttpInterceptorFn = (req, next) => {
-  return next(req).pipe(
-    tap(event => {
+export const dateInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  return next(request).pipe(
+    tap((event: HttpEvent<unknown>) => {
       if (event.type === HttpEventType.Response) {
-        const modifiedResponse = event.clone({ body: convertDates(event.body) });
+        const modifiedResponse: HttpResponse<any> = event.clone({ body: convertDates(event.body) });
 
         return modifiedResponse;
       }
+
       return event;
     })
   );
