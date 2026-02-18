@@ -6,7 +6,7 @@ function convertDates(object: any) {
   if ((!object) || (typeof object !== 'object')) { return object; }
 
   for (const key of Object.keys(object)) {
-    const value = object[key];
+    const value: any = object[key];
 
     if ((typeof value === 'string') && (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/.test(value))) {
       object[key] = new Date(value);
